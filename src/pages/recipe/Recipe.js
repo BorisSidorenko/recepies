@@ -11,7 +11,7 @@ export default function Recipe() {
             {isPending && <p className="loading">Loading...</p>}
             {recipe && (
                 <>
-                    <h2 className="title">{recipe.title}</h2>
+                    <h2 className="page-title">{recipe.title}</h2>
                     <p>Takes {recipe.cookingTime} to cook.</p>
                     <ul>
                         {recipe.ingredients.map((ing) => <li key={ing}>{ing}</li>)}
