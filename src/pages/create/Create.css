@@ -25,10 +25,10 @@
     margin: 20px auto;
 }
 
-.ingridients {
+.ingredients {
     display: flex;
     align-items: center;
 }
-.ingridients button {
+.ingredients button {
     margin: 0 0 0 10px;
 }

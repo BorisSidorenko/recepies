@@ -1,28 +1,30 @@
 import { useState, useRef } from 'react';
+import { useFetch } from '../../hooks/useFetch';
 import './Create.css';
 
 export default function Create() {
     const [title, setTitle] = useState('');
     const [method, setMethod] = useState('');
     const [cookingTime, setCookingTime] = useState('');
-    const [newIngridient, setNewIngridient] = useState('');
-    const [ingridients, setIngridients] = useState([]);
-    const ingridientInput = useRef(null);
+    const [newIngredient, setNewIngredient] = useState('');
+    const [ingredients, setIngredients] = useState([]);
+    const ingredientInput = useRef(null);
+    const { postData, data, error } = useFetch('http://localhost:3000/recipes', 'POST');
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(title, method, cookingTime, ingridients);
+        e.preventDefault();    
+        postData({ title, ingredients, method, cookingTime: `${cookingTime} minutes` });
     }
 
     const handleAdd = (e) => {
         e.preventDefault();
-        const ing = newIngridient.trim();
+        const ing = newIngredient.trim();
         
-        if (ing && !ingridients.includes(ing)) {
-            setIngridients(prevIngridients => [...prevIngridients, ing])
+        if (ing && !ingredients.includes(ing)) {
+            setIngredients(prevIngredients => [...prevIngredients, ing])
         }
-        setNewIngridient('');     
-        ingridientInput.current.focus();   
+        setNewIngredient('');     
+        ingredientInput.current.focus();   
     }
 
     return (
@@ -35,12 +37,12 @@ export default function Create() {
                 </label>
                 <label>
                     <span>Recipe ingredients:</span>
-                    <div className="ingridients">
-                        <input type="text" onChange={(e) => setNewIngridient(e.target.value)} value={newIngridient} ref={ingridientInput}/>
+                    <div className="ingredients">
+                        <input type="text" onChange={(e) => setNewIngredient(e.target.value)} value={newIngredient} ref={ingredientInput}/>
                         <button className="btn" onClick={handleAdd}>Add</button>
                     </div>
                 </label>
-                <p>Current ingridients: {ingridients.map(i => <em key={i}>{i}, </em>)}</p>
+                <p>Current ingredients: {ingredients.map(i => <em key={i}>{i}, </em>)}</p>
                 <label>
                     <span>Recipe method:</span>
                     <textarea onChange={(e) => setMethod(e.target.value)} value={method} required/>
