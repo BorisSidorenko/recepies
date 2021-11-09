@@ -11,25 +11,24 @@ export default function Home() {
     useEffect(() => {
         setIsPending(true);
 
-        projectFirestore.collection('recipies').get()
-            .then((snapshot) => {
-                if (snapshot.empty) {
-                    setError('No recipies to load');
-                    setIsPending(false);
-                } else {
-                    let results = [];
-                    snapshot.docs.forEach(doc => {
-                        results.push({ id: doc.id, ...doc.data() });                        
-                    });
-                    setData(results);
-                    setIsPending(false);
-                }
-
-            }).catch(err => {
-                setError(err.message);
+        const unsub = projectFirestore.collection('recipies').onSnapshot((snapshot) => {
+            if (snapshot.empty) {
+                setError('No recipies to load');
                 setIsPending(false);
-            });
+            } else {
+                let results = [];
+                snapshot.docs.forEach(doc => {
+                    results.push({ id: doc.id, ...doc.data() });                        
+                });
+                setData(results);
+                setIsPending(false);
+            }
+        }, (err) => {
+            setError(err.message);
+            setIsPending(false);
+        })
 
+        return () => unsub();
     }, [])
 
     return (
