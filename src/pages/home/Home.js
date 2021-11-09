@@ -12,7 +12,7 @@ export default function Home() {
         setIsPending(true);
 
         const unsub = projectFirestore.collection('recipies').onSnapshot((snapshot) => {
-            if (snapshot.empty) {
+            if (snapshot.exists) {
                 setError('No recipies to load');
                 setIsPending(false);
             } else {
