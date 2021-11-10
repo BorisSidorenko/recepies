@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 import { useTheme } from './hooks/useTheme';
 
 import Create from './pages/create/Create';
@@ -14,7 +14,7 @@ function App() {
   const { mode } = useTheme();
   return (
     <div className={`App ${mode}`}>
-      <BrowserRouter>
+      <HashRouter>
         <Navbar />
         <ThemeSelector />
         <Switch>
@@ -31,7 +31,7 @@ function App() {
             <Recipe />
           </Route>
         </Switch>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }
